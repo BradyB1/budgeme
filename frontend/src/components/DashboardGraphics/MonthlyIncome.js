@@ -6,12 +6,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MonthlyIncome = () => {
+const MonthlyIncome = ({ refresh }) => {
     const [monthlyIncomes, setMonthlyIncomes] = useState({});
 
     useEffect(() => {
         fetchIncomes();
-    }, []);
+    }, [refresh]);
 
     const fetchIncomes = async () => {
         try {

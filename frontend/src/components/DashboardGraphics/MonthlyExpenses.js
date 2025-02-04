@@ -6,12 +6,12 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MonthlyExpenses = () => {
+const MonthlyExpenses = ({ refresh }) => { // Receive refresh prop
     const [monthlyExpenses, setMonthlyExpenses] = useState({});
 
     useEffect(() => {
         fetchExpenses();
-    }, []);
+    }, [refresh]); // Re-fetch when refresh changes
 
     const fetchExpenses = async () => {
         try {
@@ -27,7 +27,7 @@ const MonthlyExpenses = () => {
                 if (!acc[monthYear]) {
                     acc[monthYear] = 0;
                 }
-                acc[monthYear] += parseFloat(expense.amount); // Sum the income for each month
+                acc[monthYear] += parseFloat(expense.amount); // Sum the expenses for each month
                 return acc;
             }, {});
 
@@ -48,8 +48,8 @@ const MonthlyExpenses = () => {
             {
                 label: 'Monthly Expense',
                 data: amounts, // Y-axis: Expense
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
             }
         ]
@@ -85,7 +85,6 @@ const MonthlyExpenses = () => {
 
 const MonthlyExpenseStyled = styled.div`
     width: 80%;
-    
 
     .expense-container {
         background-color: #f9f9f9;
@@ -109,6 +108,5 @@ const MonthlyExpenseStyled = styled.div`
         align-items: center;
     }
 `;
-
 
 export default MonthlyExpenses;

@@ -16,6 +16,7 @@
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
     "nodemon": "^3.1.9",
+    "openai": "^4.82.0",
     "react-datepicker": "^7.6.0",
     "validator": "^13.12.0"
   }
