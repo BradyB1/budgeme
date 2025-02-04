@@ -47,12 +47,35 @@ const Expense = () => {
         }
     }
 
+
+    const handleDeleteExpense = async (expenseId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/delete-expense/${expenseId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to delete expense");
+            }
+    
+            // ✅ Only update state using setExpenses inside the component
+            setExpenses((prevExpenses) => prevExpenses.filter(expense => expense._id !== expenseId));
+    
+        } catch (error) {
+            console.log('Error deleting expense:', error);
+        }
+    };
+    
+
     return (
         <ExpenseStyled>
             {/* Pass handleNewIncome to Form so it can update IncomeCard */}
             <ExpenseForm onNewExpense={handleNewExpense} />
             {/* Pass incomes to IncomeCard */}
-            <ExpenseCard expenses={expenses} />
+            <ExpenseCard expenses={expenses} onDeleteExpense={handleDeleteExpense}/>
         </ExpenseStyled>
     )
 }

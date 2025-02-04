@@ -1,10 +1,10 @@
 import { IconButton } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import onDeleteExpense from "../Expense/Expense"
 import React from 'react'
 import styled from 'styled-components'
 
-const ExpenseCard = ({ expenses }) => {  // Receive incomes as a prop
+const ExpenseCard = ({ expenses, onDeleteExpense }) => {  // Receive expenses as a prop
     return (
         <ExpenseCardStyled>
             <div className="current-expenses">
@@ -21,7 +21,11 @@ const ExpenseCard = ({ expenses }) => {  // Receive incomes as a prop
                                 <p><i>{new Date(expense.date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' })}</i></p>
                                 </div>
                                 <div className="right-container">
-                                <IconButton aria-label="delete" size="medium">
+                                <IconButton 
+                                    aria-label="delete" 
+                                    size="medium" 
+                                    onClick={() => onDeleteExpense(expense._id)} // ✅ Call delete function with correct ID
+                                >
                                     <DeleteIcon fontSize="inherit" />
                                 </IconButton>
                                 </div>
@@ -29,10 +33,15 @@ const ExpenseCard = ({ expenses }) => {  // Receive incomes as a prop
                         ))}
                     </div>
                 )}
+                
             </div>
         </ExpenseCardStyled>
     )
 }
+
+
+
+
 
 const ExpenseCardStyled = styled.div`
     border: 1px solid #ddd;

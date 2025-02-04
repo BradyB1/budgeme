@@ -73,14 +73,27 @@ exports.updateExpense = async (req, res) => {
 };
 
 //Delete Expenses
-exports.deleteExpenses = async(req,res)=>{
-    const {id} = req.params
-    ExpenseSchema.findByIdAndDelete(id).then(()=>{
-        res.status(200).json({message: "Expense Sucessfully Deleted."})
-    }).catch(()=>{
-        res.status(500).json({message: "Server Error."})
-    })
-}
+exports.deleteExpenses = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        // Ensure that the ID is valid
+        if (!id) {
+            return res.status(400).json({ message: "Expense ID is required" });
+        }
+
+        const deletedExpense = await ExpenseSchema.findByIdAndDelete(id);
+
+        if (!deletedExpense) {
+            return res.status(404).json({ message: "Expense not found" });
+        }
+
+        res.status(200).json({ message: "Expense Successfully Deleted", deletedExpense });
+    } catch (error) {
+        res.status(500).json({ message: "Server Error", error: error.message });
+    }
+};
+
 
 
 

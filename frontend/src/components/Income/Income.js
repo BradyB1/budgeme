@@ -47,12 +47,33 @@ const Income = () => {
         }
     }
 
+    const handleDeleteIncome = async (incomeId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/api/v1/delete-income/${incomeId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to delete expense");
+            }
+    
+            // ✅ Only update state using setExpenses inside the component
+            setIncomes((prevIncomes) => prevIncomes.filter(income => income._id !== incomeId));
+    
+        } catch (error) {
+            console.log('Error deleting income:', error);
+        }
+    };
+
     return (
         <IncomeStyled>
             {/* Pass handleNewIncome to Form so it can update IncomeCard */}
             <Form onNewIncome={handleNewIncome} />
             {/* Pass incomes to IncomeCard */}
-            <IncomeCard incomes={incomes} />
+            <IncomeCard incomes={incomes} onDeleteIncome={handleDeleteIncome} />
         </IncomeStyled>
     )
 }
