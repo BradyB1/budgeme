@@ -3,18 +3,20 @@ import styled from 'styled-components'
 import ExpenseForm from '../Form/ExpenseForm'
 import ExpenseCard from '../ExpenseCard/ExpenseCard'
 
-const Expense = () => {
+const Expense = ({ userId }) => {
     const [expenses, setExpenses] = useState([])
 
     // Fetch incomes when component mounts
     useEffect(() => {
+        if(userId){
         fetchExpenses()
-    }, [])
+    }
+    }, [userId])
 
     // Function to fetch incomes
     const fetchExpenses = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/get-expenses')
+            const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`)
             if (!response.ok) {
                 throw new Error("Failed to fetch income data")
             }
@@ -33,11 +35,14 @@ const Expense = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newExpense),
+                body: JSON.stringify({...newExpense, userId}),
             });
 
+            const responseData = await response.json()
+            console.log("Response Received:", responseData)
+
             if (!response.ok) {
-                throw new Error("Failed to add expense");
+                throw new Error(responseData.message || "Failed to add Expense");
             }
 
             // If successful, refetch expense
@@ -68,6 +73,35 @@ const Expense = () => {
             console.log('Error deleting expense:', error);
         }
     };
+
+    const handleEditExpense = async (expenseId, updatedExpense) => {
+        try {
+            const correctedExpense ={
+                ...updatedExpense,
+                date: new Date(updatedExpense.date).toISOString().split("T")[0] + "T00:00:00.000Z"
+            }
+
+            const response = await fetch(`http://localhost:3000/api/v1/update-expense/${expenseId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(correctedExpense)
+            })
+
+            if(!response.ok) { 
+                throw new Error("Failed to update Expense");
+            }
+
+            const updatedExpenseData = await response.json()
+
+            setExpenses(prevExpenses =>
+                prevExpenses.map(expense =>
+                    expense._id === expenseId ? updatedExpenseData.expense : expense
+                )
+            )
+        } catch (error) {
+            console.log("Error updating income:", error)
+        }
+    }
     
 
     return (
@@ -75,7 +109,7 @@ const Expense = () => {
             {/* Pass handleNewIncome to Form so it can update IncomeCard */}
             <ExpenseForm onNewExpense={handleNewExpense} />
             {/* Pass incomes to IncomeCard */}
-            <ExpenseCard expenses={expenses} onDeleteExpense={handleDeleteExpense}/>
+            <ExpenseCard expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense}/>
         </ExpenseStyled>
     )
 }

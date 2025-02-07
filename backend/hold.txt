@@ -1,0 +1,37 @@
+##Open AI
+
+
+import OpenAI from "openai";
+
+const openai = new OpenAI({
+  apiKey: "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",
+});
+
+const completion = openai.chat.completions.create({
+  model: "gpt-4o-mini",
+  store: true,
+  messages: [
+    {"role": "user", "content": "write a haiku about ai"},
+  ],
+});
+
+completion.then((result) => console.log(result.choices[0].message));
+
+
+## Gemini
+
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=GEMINI_API_KEY" \
+-H 'Content-Type: application/json' \
+-X POST \
+-d '{
+  "contents": [{
+    "parts":[{"text": "Explain how AI works"}]
+    }]
+   }'
+
+   key = AIzaSyB1Aaw2JN-q0nn7-XbdrARDh2eUtMbc1l8
+
+
+
+
+my userid: "67a27b6038bb6e0e8d286df7"

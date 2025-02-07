@@ -3,80 +3,116 @@ import styled from 'styled-components'
 import Form from "../Form/Form"
 import IncomeCard from '../IncomeCard/IncomeCard'
 
-const Income = () => {
-    const [incomes, setIncomes] = useState([])
 
-    // Fetch incomes when component mounts
+const Income = ({ userId }) => {  // ✅ Get userId as a prop
+    const [incomes, setIncomes] = useState([]);
+
     useEffect(() => {
-        fetchIncomes()
-    }, [])
+        if (userId) {
+            fetchIncomes();
+        }
+    }, [userId]);
 
-    // Function to fetch incomes
     const fetchIncomes = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/get-incomes')
+            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); // ✅ Use userId
             if (!response.ok) {
-                throw new Error("Failed to fetch income data")
+                throw new Error("Failed to fetch income data");
             }
             const data = await response.json();
             setIncomes(data);
         } catch (error) {
-            console.log('Error fetching incomes:', error)
+            console.log("Error fetching incomes:", error);
         }
-    }
+    };
 
     // Function to add new income to the list dynamically
     const handleNewIncome = async (newIncome) => {
         try {
+            console.log("Submitting income:", newIncome);  // ✅ Log before sending
+    
             const response = await fetch('http://localhost:3000/api/v1/add-income', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newIncome),
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ ...newIncome, userId })
             });
-
+    
+            const responseData = await response.json();
+            console.log("Response received:", responseData);  // ✅ Log server response
+    
             if (!response.ok) {
-                throw new Error("Failed to add income");
+                throw new Error(responseData.message || "Failed to add income");
             }
-
-            // If successful, refetch incomes
-            fetchIncomes();
+    
+            fetchIncomes();  // Refresh the income list after success
         } catch (error) {
             console.log('Error adding income:', error);
         }
-    }
-
+    };
+    
+    
     const handleDeleteIncome = async (incomeId) => {
         try {
+            console.log('Deleting Income:', incomeId);
+    
             const response = await fetch(`http://localhost:3000/api/v1/delete-income/${incomeId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
             });
     
             if (!response.ok) {
-                throw new Error("Failed to delete expense");
+                throw new Error("Failed to delete income");
             }
     
-            // ✅ Only update state using setExpenses inside the component
-            setIncomes((prevIncomes) => prevIncomes.filter(income => income._id !== incomeId));
+            // ✅ Remove deleted income from state immediately
+            setIncomes(prevIncomes => prevIncomes.filter(income => income._id !== incomeId));
     
         } catch (error) {
-            console.log('Error deleting income:', error);
+            console.log("Error deleting income:", error);
         }
     };
+    
+    const handleEditIncome = async (incomeId, updatedIncome) => {
+        try {
+            // ✅ Convert the date to ensure it remains correct in UTC
+            const correctedIncome = {
+                ...updatedIncome,
+                date: new Date(updatedIncome.date).toISOString().split('T')[0] + "T00:00:00.000Z" 
+                // ✅ Ensures the time is exactly midnight UTC
+            };
+    
+            const response = await fetch(`http://localhost:3000/api/v1/update-income/${incomeId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(correctedIncome),
+            });
+    
+            if (!response.ok) {
+                throw new Error("Failed to update income");
+            }
+    
+            const updatedIncomeData = await response.json();
+    
+            // ✅ Update the UI instantly
+            setIncomes(prevIncomes =>
+                prevIncomes.map(income =>
+                    income._id === incomeId ? updatedIncomeData.income : income
+                )
+            );
+    
+        } catch (error) {
+            console.log("Error updating income:", error);
+        }
+    };
+    
+    
 
     return (
         <IncomeStyled>
-            {/* Pass handleNewIncome to Form so it can update IncomeCard */}
-            <Form onNewIncome={handleNewIncome} />
-            {/* Pass incomes to IncomeCard */}
-            <IncomeCard incomes={incomes} onDeleteIncome={handleDeleteIncome} />
+            <Form onNewIncome={handleNewIncome} userId={userId} />
+            <IncomeCard incomes={incomes} onDeleteIncome={handleDeleteIncome} onEditIncome={handleEditIncome} />
         </IncomeStyled>
-    )
-}
+    );
+};
 
 const IncomeStyled = styled.div``
 

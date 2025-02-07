@@ -6,36 +6,33 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MonthlyExpenses = ({ refresh }) => { // Receive refresh prop
+const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
     const [monthlyExpenses, setMonthlyExpenses] = useState({});
 
     useEffect(() => {
-        fetchExpenses();
-    }, [refresh]); // Re-fetch when refresh changes
+        if (userId) {  // ✅ Ensure userId exists before calling API
+            fetchExpenses();
+        }
+    }, [refresh, userId]);
 
     const fetchExpenses = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/get-expenses');
+            const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`); // ✅ Use userId
             if (!response.ok) throw new Error('Failed to fetch expense data');
             const data = await response.json();
-
-            // Process the data: Aggregate by month
             const expenseByMonth = data.reduce((acc, expense) => {
                 const date = new Date(expense.date);
-                const monthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' }); // "Jan 2024"
-
-                if (!acc[monthYear]) {
-                    acc[monthYear] = 0;
-                }
-                acc[monthYear] += parseFloat(expense.amount); // Sum the expenses for each month
+                const monthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+                if (!acc[monthYear]) acc[monthYear] = 0;
+                acc[monthYear] += parseFloat(expense.amount);
                 return acc;
             }, {});
-
             setMonthlyExpenses(expenseByMonth);
         } catch (error) {
             console.error(error);
         }
     };
+    
 
     // Convert object into sorted arrays for Chart.js
     const months = Object.keys(monthlyExpenses).sort((a, b) => new Date(a) - new Date(b)); // Sort in chronological order

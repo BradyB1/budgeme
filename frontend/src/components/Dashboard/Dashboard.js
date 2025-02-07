@@ -5,21 +5,21 @@ import MonthlyIncome from '../DashboardGraphics/MonthlyIncome';
 import MonthlyExpenses from '../DashboardGraphics/MonthlyExpenses';
 import Networth from '../DashboardGraphics/Networth';
 
-const Dashboard = () => {
+const Dashboard = ({ userId }) => {  // ✅ Accept userId as a prop
   const [refresh, setRefresh] = useState(false);
 
-  // Toggle refresh state to trigger re-fetch
   const triggerRefresh = () => setRefresh(prev => !prev);
+  
 
   return (
     <DashboardStyled>
       <div className="dash-header">Dashboard</div>
       <div className="dash-content">
-        <TransactionBar triggerRefresh={triggerRefresh} />
+      <TransactionBar userId={userId} triggerRefresh={triggerRefresh} /> 
         <div className="main-container">
-          <MonthlyIncome refresh={refresh}/>
-          <MonthlyExpenses refresh={refresh}/>
-          <Networth refresh={refresh} />
+          <MonthlyIncome refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
+          <MonthlyExpenses refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
+          <Networth refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
         </div>
       </div>
     </DashboardStyled>

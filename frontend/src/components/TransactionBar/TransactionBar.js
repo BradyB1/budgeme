@@ -1,54 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const TransactionBar = ({ triggerRefresh }) => {
-    const [incomes, setIncomes] = useState([]);
-    const [expenses, setExpenses] = useState([]);
+const TransactionBar = ({ triggerRefresh, userId }) => {
+    const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
-        fetchIncomes();
-        fetchExpenses();
-    }, []);
+        if (userId) {  
+            fetchTransactions();
+        }
+    }, [userId]);  
 
-    // Fetch last 5 recent incomes
-    const fetchIncomes = async () => {
+    const fetchTransactions = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/get-incomes');
-            if (!response.ok) throw new Error('Failed to fetch income data');
-            const data = await response.json();
+            console.log("Fetching transactions for userId:", userId); 
 
-            // Sort by date & add type
-            const sortedIncomes = data
+            // Fetch incomes & expenses at the same time
+            const [incomeRes, expenseRes] = await Promise.all([
+                fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`),
+                fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`)
+            ]);
+
+            if (!incomeRes.ok || !expenseRes.ok) throw new Error('Failed to fetch transactions');
+
+            const incomes = await incomeRes.json();
+            const expenses = await expenseRes.json();
+
+            console.log("Fetched incomes:", incomes); 
+            console.log("Fetched expenses:", expenses); 
+
+            // Add type & merge both transactions
+            const allTransactions = [
+                ...incomes.map(income => ({ ...income, type: 'income' })),
+                ...expenses.map(expense => ({ ...expense, type: 'expense' }))
+            ];
+
+            // Sort all transactions together by date (newest first) & keep only the latest 10
+            const sortedTransactions = allTransactions
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 5)
-                .map(income => ({ ...income, type: 'income' })); // 🔥 Add type back
+                .slice(0, 10);
 
-            setIncomes(sortedIncomes);
+            setTransactions(sortedTransactions);
         } catch (error) {
-            console.log('Error fetching incomes:', error);
+            console.log('Error fetching transactions:', error);
         }
     };
 
-    // Fetch last 5 recent expenses
-    const fetchExpenses = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/v1/get-expenses');
-            if (!response.ok) throw new Error('Failed to fetch expense data');
-            const data = await response.json();
-
-            // Sort by date & add type
-            const sortedExpenses = data
-                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                .slice(0, 5)
-                .map(expense => ({ ...expense, type: 'expense' })); // 🔥 Add type back
-
-            setExpenses(sortedExpenses);
-        } catch (error) {
-            console.log('Error fetching expenses:', error);
-        }
-    };
-
-    // Delete a transaction and trigger re-fetch
     const handleDeleteTransaction = async (transaction) => {
         try {
             const url = transaction.type === 'income'
@@ -57,15 +53,10 @@ const TransactionBar = ({ triggerRefresh }) => {
 
             await fetch(url, { method: 'DELETE' });
 
-            if (transaction.type === 'income') {
-                setIncomes((prev) => prev.filter((inc) => inc._id !== transaction._id));
-            } else {
-                setExpenses((prev) => prev.filter((exp) => exp._id !== transaction._id));
-            }
+            // Remove from state immediately for instant UI update
+            setTransactions(prev => prev.filter((t) => t._id !== transaction._id));
 
-            triggerRefresh(); // 🔥 Notify Dashboard to refresh Networth component
-            fetchIncomes();  // Re-fetch after deletion
-            fetchExpenses();
+            triggerRefresh();  
         } catch (error) {
             console.log('Error deleting transaction:', error);
         }
@@ -76,12 +67,14 @@ const TransactionBar = ({ triggerRefresh }) => {
             <div className="transactions-container">
                 <h2>Recent Transactions</h2>
                 <div className="transactions-list">
-                    {[...incomes, ...expenses].map((transaction) => (
-                        <div key={transaction._id} className={`transaction-item ${transaction.type}`}>
-                            <span>{transaction.title} - ${transaction.amount}</span>
-                            <button onClick={() => handleDeleteTransaction(transaction)}>❌</button>
-                        </div>
-                    ))}
+                    {transactions.length === 0 ? <p>No transactions found.</p> : (
+                        transactions.map(transaction => (
+                            <div key={transaction._id} className={`transaction-item ${transaction.type}`}>
+                                <span>{transaction.title} - ${transaction.amount}</span>
+                                <button onClick={() => handleDeleteTransaction(transaction)}>❌</button>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </TransactionBarStyled>
@@ -117,13 +110,13 @@ const TransactionBarStyled = styled.div`
     }
 
     .income {
-        background: #e0f7fa; /* Light blue */
-        color: #00796b; /* Dark green */
+        background: #e0f7fa;
+        color: #00796b;
     }
 
     .expense {
-        background: #ffebee; /* Light red */
-        color: #c62828; /* Dark red */
+        background: #ffebee;
+        color: #c62828;
     }
 
     button {
@@ -135,5 +128,3 @@ const TransactionBarStyled = styled.div`
 `;
 
 export default TransactionBar;
-
-

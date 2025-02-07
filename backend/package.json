@@ -9,6 +9,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "backend": "file:",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
@@ -16,7 +17,6 @@
     "express": "^4.21.2",
     "mongoose": "^8.9.5",
     "nodemon": "^3.1.9",
-    "openai": "^4.82.0",
     "react-datepicker": "^7.6.0",
     "validator": "^13.12.0"
   }

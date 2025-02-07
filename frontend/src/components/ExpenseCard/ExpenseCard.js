@@ -1,10 +1,31 @@
-import { IconButton } from '@mui/material'
+import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import onDeleteExpense from "../Expense/Expense"
-import React from 'react'
-import styled from 'styled-components'
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 
-const ExpenseCard = ({ expenses, onDeleteExpense }) => {  // Receive expenses as a prop
+const ExpenseCard = ({ expenses, onDeleteExpense, onEditExpense }) => {  
+    const [editingExpenseId, setEditingExpenseId] = useState(null);
+    const [editValues, setEditValues] = useState({});
+
+    const handleEditClick = (expense) => {
+        setEditingExpenseId(expense._id);
+        setEditValues(expense);
+    };
+
+    const handleSaveClick = () => {
+        onEditExpense(editingExpenseId, editValues);
+        setEditingExpenseId(null);
+    };
+
+    const handleChange = (e) => {
+        setEditValues(prev => ({
+            ...prev,
+            [e.target.name]: e.target.name === "date" ? new Date(e.target.value).toISOString() : e.target.value
+        }));
+    };
+
     return (
         <ExpenseCardStyled>
             <div className="current-expenses">
@@ -16,32 +37,43 @@ const ExpenseCard = ({ expenses, onDeleteExpense }) => {  // Receive expenses as
                         {expenses.map((expense) => (
                             <div key={expense._id} id="expense">
                                 <div className="left-container">
-                                <p><strong>{expense.title} </strong></p>
-                                <p>Amount: ${expense.amount}</p>
-                                <p><i>{new Date(expense.date).toLocaleDateString('en-US', { year: '2-digit', month: '2-digit', day: '2-digit' })}</i></p>
+                                    {editingExpenseId === expense._id ? (
+                                        <>
+                                            <input type="text" name="title" value={editValues.title} onChange={handleChange} className="edit-input" />
+                                            <input type="number" name="amount" value={editValues.amount} onChange={handleChange} className="edit-input" />
+                                            <input type="date" name="date" value={editValues.date.split('T')[0]} onChange={handleChange} className="edit-input" />
+                                            <input type="text" name="category" value={editValues.category} onChange={handleChange} className="edit-input" />
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p><strong>{expense.title}</strong></p>
+                                            <p>Amount: ${expense.amount}</p>
+                                            <p><i>{new Date(expense.date).toLocaleDateString('en-US', { timeZone: 'UTC' })}</i></p>                                        </>
+                                    )}
                                 </div>
+
                                 <div className="right-container">
-                                <IconButton 
-                                    aria-label="delete" 
-                                    size="medium" 
-                                    onClick={() => onDeleteExpense(expense._id)} // ✅ Call delete function with correct ID
-                                >
-                                    <DeleteIcon fontSize="inherit" />
-                                </IconButton>
+                                    {editingExpenseId === expense._id ? (
+                                        <IconButton onClick={handleSaveClick}>
+                                            <SaveIcon fontSize="inherit" />
+                                        </IconButton>
+                                    ) : (
+                                        <IconButton onClick={() => handleEditClick(expense)}>
+                                            <EditIcon fontSize="inherit" />
+                                        </IconButton>
+                                    )}
+                                    <IconButton onClick={() => onDeleteExpense(expense._id)}>
+                                        <DeleteIcon fontSize="inherit" />
+                                    </IconButton>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
-                
             </div>
         </ExpenseCardStyled>
-    )
-}
-
-
-
-
+    );
+};
 
 const ExpenseCardStyled = styled.div`
     border: 1px solid #ddd;
@@ -90,4 +122,5 @@ const ExpenseCardStyled = styled.div`
 
     
 `
-export default ExpenseCard
+
+export default ExpenseCard;

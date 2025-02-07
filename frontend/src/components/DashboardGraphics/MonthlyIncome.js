@@ -3,51 +3,44 @@ import styled from 'styled-components';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register necessary Chart.js components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MonthlyIncome = ({ refresh }) => {
+const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
     const [monthlyIncomes, setMonthlyIncomes] = useState({});
 
     useEffect(() => {
-        fetchIncomes();
-    }, [refresh]);
+        if (userId) {  // ✅ Ensure userId exists before calling API
+            fetchIncomes();
+        }
+    }, [refresh, userId]);
 
     const fetchIncomes = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/v1/get-incomes');
+            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); // ✅ Use userId
             if (!response.ok) throw new Error('Failed to fetch income data');
             const data = await response.json();
-
-            // Process the data: Aggregate by month
             const incomeByMonth = data.reduce((acc, income) => {
                 const date = new Date(income.date);
-                const monthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' }); // "Jan 2024"
-
-                if (!acc[monthYear]) {
-                    acc[monthYear] = 0;
-                }
-                acc[monthYear] += parseFloat(income.amount); // Sum the income for each month
+                const monthYear = date.toLocaleString('default', { month: 'short', year: 'numeric' });
+                if (!acc[monthYear]) acc[monthYear] = 0;
+                acc[monthYear] += parseFloat(income.amount);
                 return acc;
             }, {});
-
             setMonthlyIncomes(incomeByMonth);
         } catch (error) {
             console.error(error);
         }
     };
 
-    // Convert object into sorted arrays for Chart.js
-    const months = Object.keys(monthlyIncomes).sort((a, b) => new Date(a) - new Date(b)); // Sort in chronological order
-    const amounts = months.map(month => monthlyIncomes[month]); // Get corresponding values
+    const months = Object.keys(monthlyIncomes).sort((a, b) => new Date(a) - new Date(b));
+    const amounts = months.map(month => monthlyIncomes[month]);
 
-    // Chart.js data
     const chartData = {
-        labels: months, // X-axis: Months
+        labels: months,
         datasets: [
             {
                 label: 'Monthly Income',
-                data: amounts, // Y-axis: Income
+                data: amounts,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1,
@@ -76,7 +69,7 @@ const MonthlyIncome = ({ refresh }) => {
                         <Bar data={chartData} options={chartOptions} />
                     </div>
                 ) : (
-                    <p>Loading income data...</p>
+                    <p>No Income Data ...</p>
                 )}
             </div>
         </MonthlyIncomeStyled>
@@ -85,8 +78,6 @@ const MonthlyIncome = ({ refresh }) => {
 
 const MonthlyIncomeStyled = styled.div`
     width: 80%;
-    
-
     .income-container {
         background-color: #f9f9f9;
         border: 3px solid black;
@@ -99,16 +90,14 @@ const MonthlyIncomeStyled = styled.div`
         align-items: center;
         justify-content: center;
     }
-
     .chart-wrapper {
-        width: 90%; /* Ensure it doesn't stretch too much */
-        max-width: 600px; /* Limit width for better visuals */
+        width: 90%;
+        max-width: 600px;
         height: 300px;
         display: flex;
-        justify-content: center; /* Center the chart inside */
+        justify-content: center;
         align-items: center;
     }
 `;
-
 
 export default MonthlyIncome;
