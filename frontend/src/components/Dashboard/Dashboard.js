@@ -7,7 +7,7 @@ import Networth from '../DashboardGraphics/Networth';
 import Spending from '../DashboardGraphics/Spending';
 import GeneratedTips from '../DashboardGraphics/GeneratedTips';
 
-const Dashboard = ({ userId }) => {  // ✅ Accept userId as a prop
+const Dashboard = ({ userId }) => {  //Accept userId as a prop
   const [refresh, setRefresh] = useState(false);
 
   const triggerRefresh = () => setRefresh(prev => !prev);
@@ -24,19 +24,19 @@ const Dashboard = ({ userId }) => {  // ✅ Accept userId as a prop
               <Spending refresh={refresh} userId={userId}/>
             </div>
               <div className="networth-container">
-                <Networth refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
+                <Networth refresh={refresh} userId={userId} /> {/* Pass userId */}
               </div>
 
           </div>
           
               <div className="income-container">
-                <MonthlyIncome refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
+                <MonthlyIncome refresh={refresh} userId={userId} /> {/*Pass userId */}
               </div>
               <div className="expense-container">
-                <MonthlyExpenses refresh={refresh} userId={userId} /> {/* ✅ Pass userId */}
+                <MonthlyExpenses refresh={refresh} userId={userId} /> {/* Pass userId */}
               </div>
               <div className="tips-container">
-                <GeneratedTips />
+                <GeneratedTips userId={userId} />
               </div>
 
             
@@ -56,7 +56,7 @@ const Dashboard = ({ userId }) => {  // ✅ Accept userId as a prop
 
 const DashboardStyled = styled.div`
   width: 100%;
-  height: 100vh; /*Ensure it takes the full screen */
+  height: 100vh; 
 
   .dash-header {
     padding-top: 0.5rem;

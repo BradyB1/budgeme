@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-const Networth = ({ refresh, userId }) => {  // ✅ Ensure userId is received
+const Networth = ({ refresh, userId }) => {  
   const [income, setIncome] = useState(0);
   const [expenses, setExpenses] = useState(0);
   const [networth, setNetworth] = useState(0);
@@ -34,11 +34,11 @@ const Networth = ({ refresh, userId }) => {  // ✅ Ensure userId is received
 
   // Fetch data when component mounts or when refresh state changes
   useEffect(() => {
-    if (userId) {  // ✅ Only fetch if userId exists
+    if (userId) { 
       fetchIncomes();
       fetchExpenses();
     }
-  }, [refresh, userId]); // ✅ Include `userId` to re-fetch when it changes
+  }, [refresh, userId]);
 
   // Calculate Net Worth dynamically
   useEffect(() => {

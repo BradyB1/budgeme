@@ -18,9 +18,9 @@ const Transactions = ({ userId }) => {
 
 const TransactionsStyled = styled.div`
   background-color: #f9f9f9;
-  min-height: 100vh;  // ✅ Ensures it takes at least full screen height
+  min-height: 100vh; 
   display: flex;
-  flex-direction: column;  // ✅ Ensures content stacks correctly
+  flex-direction: column; 
 
   .dash-header {
     padding-top: 0.5rem;

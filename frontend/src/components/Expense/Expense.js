@@ -66,7 +66,7 @@ const Expense = ({ userId }) => {
                 throw new Error("Failed to delete expense");
             }
     
-            // ✅ Only update state using setExpenses inside the component
+            // Only update state using setExpenses inside the component
             setExpenses((prevExpenses) => prevExpenses.filter(expense => expense._id !== expenseId));
     
         } catch (error) {
@@ -106,9 +106,7 @@ const Expense = ({ userId }) => {
 
     return (
         <ExpenseStyled>
-            {/* Pass handleNewIncome to Form so it can update IncomeCard */}
             <ExpenseForm onNewExpense={handleNewExpense} />
-            {/* Pass incomes to IncomeCard */}
             <ExpenseCard expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense}/>
         </ExpenseStyled>
     )

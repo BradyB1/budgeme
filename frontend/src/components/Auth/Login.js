@@ -27,7 +27,7 @@ const Login = ({ setUserId }) => {
             setUserId(data.userId);
             navigate("/");
         } catch (error) {
-            console.error("❌ Login Error:", error);
+            console.error("Login Error:", error);
             setError(error.message);
         }
     };
@@ -54,7 +54,7 @@ const LoginStyled = styled.div`
     .login-container { 
     padding-top:2rem;
         display: flex;
-        flex-direction: column; /* Stacks everything vertically */
+        flex-direction: column;
         justify-content: center;
         align-items: center;
     }
@@ -65,10 +65,10 @@ const LoginStyled = styled.div`
 
     form {
         display: flex;
-        flex-direction: column; /* Stacks form elements vertically */
-        gap: 10px; /* Adds spacing between form elements */
+        flex-direction: column; 
+        gap: 10px;
         width: 100%;
-        max-width: 300px; /* Restricts form width */
+        max-width: 300px;
     }
 
     input, button {

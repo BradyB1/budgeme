@@ -1,7 +1,7 @@
 const Expense = require("../models/ExpenseModel");
-const User = require("../models/UserModel"); // ✅ Import User model
+const User = require("../models/UserModel"); // Import User model
 
-// ✅ Create Expense (Now Requires `userId`)
+// Create Expense (Now Requires `userId`)
 exports.addExpense = async (req, res) => {
     const { userId, title, amount, category, date, description } = req.body;
 
@@ -10,13 +10,13 @@ exports.addExpense = async (req, res) => {
             return res.status(400).json({ message: "All fields are required" });
         }
 
-        // ✅ Ensure the user exists
+        //Ensure the user exists
         const userExists = await User.findById(userId);
         if (!userExists) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // ✅ Validate date
+        //Validate date
         const parsedDate = new Date(date);
         if (isNaN(parsedDate.getTime())) {
             return res.status(400).json({ message: "Invalid date format. Use YYYY-MM-DDTHH:mm:ss.sssZ" });
@@ -40,21 +40,21 @@ exports.addExpense = async (req, res) => {
     }
 };
 
-// ✅ Fetch User-Specific Expenses
+// Fetch User-Specific Expenses
 
 exports.getExpenses = async (req, res) => {
-    const { userId } = req.params; // ✅ Read userId from URL
+    const { userId } = req.params; //Read userId from URL
 
     try {
-        // ✅ Ensure userId is valid
+        //Ensure userId is valid
         if (!userId.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "Invalid user ID format" });
         }
 
-        // ✅ Find expenses by userId
+        //Find expenses by userId
         const expenses = await Expense.find({ userId }).sort({ createdAt: -1 });
 
-        // ✅ If no expenses found, return a message
+        //If no expenses found, return a message
         if (expenses.length === 0) {
             return res.status(404).json({ message: "No expenses found for this user" });
         }
@@ -67,25 +67,25 @@ exports.getExpenses = async (req, res) => {
 };
 
 
-// ✅ Update Expense
+//Update Expense
 
 exports.updateExpense = async (req, res) => {
     const { id } = req.params;
     const { title, amount, category, date, description } = req.body;
 
     try {
-        // ✅ Validate ID format
+        //Validate ID format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "Invalid expense ID format" });
         }
 
-        // ✅ Find expense by ID
+        // Find expense by ID
         const expense = await Expense.findById(id);
         if (!expense) {
             return res.status(404).json({ message: "Expense not found" });
         }
 
-        // ✅ Validate and parse date if provided
+        // Validate and parse date if provided
         let parsedDate = expense.date;
         if (date) {
             parsedDate = new Date(date);
@@ -94,7 +94,7 @@ exports.updateExpense = async (req, res) => {
             }
         }
 
-        // ✅ Allow Partial Updates
+        // Allow Partial Updates
         expense.title = title || expense.title;
         expense.amount = amount || expense.amount;
         expense.category = category || expense.category;
@@ -112,7 +112,7 @@ exports.updateExpense = async (req, res) => {
 };
 
 
-// ✅ Delete Expense
+// Delete Expense
 exports.deleteExpense = async (req, res) => {
     const { id } = req.params;
 

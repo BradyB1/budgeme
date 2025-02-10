@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import { Button } from '@mui/material'
 
-const Form = ({ onNewExpense }) => {  // Receive onNewIncome as a prop
+const Form = ({ onNewExpense }) => {  // Receive onNewExpense as a prop
     const [inputState, setInputState] = useState({
         title: '',
         amount: "",
@@ -22,8 +22,8 @@ const Form = ({ onNewExpense }) => {  // Receive onNewIncome as a prop
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            await onNewExpense(inputState);  // Call the function to update state in parent
-            setInputState({ title: '', amount: '', date: '', category: '', description: '' }) // Reset form
+            await onNewExpense(inputState); 
+            setInputState({ title: '', amount: '', date: '', category: '', description: '' }) 
         } catch (error) {
             console.error("Error submitting form:", error)
         }

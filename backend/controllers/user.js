@@ -26,22 +26,22 @@ exports.loginUser = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // ✅ Check if user exists
+        //Check if user exists
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        // ✅ Validate password
+        // Validate password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid email or password" });
         }
 
-        // ✅ Return userId if login is successful
+        // Return userId if login is successful
         res.status(200).json({ userId: user._id });
     } catch (error) {
-        console.error("❌ Login Error:", error);
+        console.error("Login Error:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
@@ -65,7 +65,7 @@ exports.addUser = async (req, res) => {
         const user = new User({ username, password: hashedPassword, email });
         await user.save();
 
-        res.status(201).json({ message: "User created successfully.", userId: user._id });  // ✅ Send userId
+        res.status(201).json({ message: "User created successfully.", userId: user._id }); 
     } catch (error) {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
@@ -90,7 +90,7 @@ exports.getUser = async (req, res) => {
 
         res.status(200).json(user); 
     } catch (error) {
-        console.log("❌ Error fetching user: ", error);
+        console.log("Error fetching user: ", error);
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 };

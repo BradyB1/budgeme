@@ -85,7 +85,7 @@ function ResponsiveAppBar() {
                 {pages.map((page) => (
                   <Button
                     key={page.name}
-                    onClick={() => navigate(page.path)}  // ✅ Use navigate() instead of setActive()
+                    onClick={() => navigate(page.path)}  
                     sx={{
                       my: 2,
                       color: "white",

@@ -49,7 +49,7 @@ exports.addIncome = async (req, res) => {
 
 // Fetch Only User's Incomes
 exports.getIncomes = async (req, res) => {
-    const { userId } = req.params; // ✅ Get userId from URL parameters
+    const { userId } = req.params; 
 
     try {
         if (!userId) {
@@ -73,18 +73,18 @@ exports.updateIncome = async (req, res) => {
     const { title, amount, category, date, description } = req.body;
 
     try {
-        // ✅ Validate ID format
+        //Validate ID format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "Invalid income ID format" });
         }
 
-        // ✅ Ensure the income exists
+        //Ensure the income exists
         const income = await Income.findById(id);
         if (!income) {
             return res.status(404).json({ message: "Income not found" });
         }
 
-        // ✅ Ensure the date is valid
+        //Ensure the date is valid
         let parsedDate = income.date;
         if (date) {
             parsedDate = new Date(date);
@@ -93,7 +93,7 @@ exports.updateIncome = async (req, res) => {
             }
         }
 
-        // ✅ Update income fields (only if provided)
+        //Update income fields (only if provided)
         income.title = title || income.title;
         income.amount = amount || income.amount;
         income.category = category || income.category;
@@ -115,21 +115,21 @@ exports.updateIncome = async (req, res) => {
 // Delete Incomes
 
 exports.deleteIncome = async (req, res) => {
-    const { id } = req.params; // ✅ Get income ID from URL
+    const { id } = req.params; //Get income ID from URL
 
     try {
-        // ✅ Validate ID format
+        //Validate ID format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "Invalid income ID format" });
         }
 
-        // ✅ Check if the income exists
+        //Check if the income exists
         const income = await Income.findById(id);
         if (!income) {
             return res.status(404).json({ message: "Income not found" });
         }
 
-        // ✅ Delete the income
+        // Delete the income
         await Income.findByIdAndDelete(id);
 
         res.status(200).json({ message: "Income Successfully Deleted" });

@@ -3,12 +3,12 @@ const validator = require("validator");
 const validateUserData = (username, password, email) => {
     const errors = [];
 
-    // 🛑 Check if all fields exist
+    // Check if all fields exist
     if (!username || !password || !email) {
         errors.push("All fields are required.");
     }
 
-    // ✅ Username validation
+    //Username validation
     if (typeof username !== "string") {
         errors.push("Username must be a string.");
     }
@@ -19,7 +19,7 @@ const validateUserData = (username, password, email) => {
         errors.push("Username cannot be greater than 15 characters.");
     }
 
-    // ✅ Password validation
+    // Password validation
     if (typeof password !== "string") {
         errors.push("Password must be a string.");
     }
@@ -30,7 +30,7 @@ const validateUserData = (username, password, email) => {
         errors.push("Password cannot be greater than 30 characters.");
     }
 
-    // ✅ Email validation
+    // Email validation
     if (!validator.isEmail(email)) {
         errors.push("Invalid email format.");
     }

@@ -4,7 +4,7 @@ import Form from "../Form/Form"
 import IncomeCard from '../IncomeCard/IncomeCard'
 
 
-const Income = ({ userId }) => {  // ✅ Get userId as a prop
+const Income = ({ userId }) => { 
     const [incomes, setIncomes] = useState([]);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
 
     const fetchIncomes = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); // ✅ Use userId
+            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); 
             if (!response.ok) {
                 throw new Error("Failed to fetch income data");
             }
@@ -29,7 +29,7 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
     // Function to add new income to the list dynamically
     const handleNewIncome = async (newIncome) => {
         try {
-            console.log("Submitting income:", newIncome);  // ✅ Log before sending
+            console.log("Submitting income:", newIncome);
     
             const response = await fetch('http://localhost:3000/api/v1/add-income', {
                 method: 'POST',
@@ -38,13 +38,13 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
             });
     
             const responseData = await response.json();
-            console.log("Response received:", responseData);  // ✅ Log server response
+            console.log("Response received:", responseData);  
     
             if (!response.ok) {
                 throw new Error(responseData.message || "Failed to add income");
             }
     
-            fetchIncomes();  // Refresh the income list after success
+            fetchIncomes();  
         } catch (error) {
             console.log('Error adding income:', error);
         }
@@ -63,7 +63,7 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
                 throw new Error("Failed to delete income");
             }
     
-            // ✅ Remove deleted income from state immediately
+            
             setIncomes(prevIncomes => prevIncomes.filter(income => income._id !== incomeId));
     
         } catch (error) {
@@ -73,11 +73,9 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
     
     const handleEditIncome = async (incomeId, updatedIncome) => {
         try {
-            // ✅ Convert the date to ensure it remains correct in UTC
             const correctedIncome = {
                 ...updatedIncome,
                 date: new Date(updatedIncome.date).toISOString().split('T')[0] + "T00:00:00.000Z" 
-                // ✅ Ensures the time is exactly midnight UTC
             };
     
             const response = await fetch(`http://localhost:3000/api/v1/update-income/${incomeId}`, {
@@ -92,7 +90,6 @@ const Income = ({ userId }) => {  // ✅ Get userId as a prop
     
             const updatedIncomeData = await response.json();
     
-            // ✅ Update the UI instantly
             setIncomes(prevIncomes =>
                 prevIncomes.map(income =>
                     income._id === incomeId ? updatedIncomeData.income : income

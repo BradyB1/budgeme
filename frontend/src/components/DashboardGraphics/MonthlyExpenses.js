@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-// Register necessary Chart.js components
+//Chart.js components
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, Title, Tooltip, Legend);
 
-const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
+const MonthlyExpenses = ({ refresh, userId }) => {  //take userId
     const [monthlyExpenses, setMonthlyExpenses] = useState({});
 
     useEffect(() => {
-        if (userId) {  // ✅ Ensure userId exists before calling API
+        if (userId) {  //Ensure userId exists before calling API
             fetchExpenses();
         }
     }, [refresh, userId]);
 
     const fetchExpenses = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`); // ✅ Use userId
+            const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`); //Use userId
             if (!response.ok) throw new Error('Failed to fetch expense data');
             const data = await response.json();
             const expenseByMonth = data.reduce((acc, expense) => {
@@ -57,7 +57,7 @@ const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
 
     const chartOptions = {
         responsive: true,
-        maintainAspectRatio: false,  // ✅ Allows the graph to expand fully
+        maintainAspectRatio: false,
         plugins: {
             legend: { display: true },
             tooltip: { enabled: true }
@@ -98,8 +98,8 @@ const MonthlyExpenseStyled = styled.div`
         border: 3px solid rgba(149, 153, 158, 100);
         border-radius: 15px;
         padding: 1rem;
-        width: 100%;  /* ✅ Allow full width */
-        min-height: 400px; /* ✅ Increase height */
+        width: 100%; 
+        min-height: 400px; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -107,9 +107,9 @@ const MonthlyExpenseStyled = styled.div`
     }
 
     .chart-wrapper {
-        width: 100%;  /* ✅ Allow full width */
-        height: 100%;  /* ✅ Allow full height */
-        flex-grow: 1;  /* ✅ Allow chart to expand */
+        width: 100%; 
+        height: 100%;  
+        flex-grow: 1; 
         display: flex;
         justify-content: center;
         align-items: center;
@@ -117,7 +117,7 @@ const MonthlyExpenseStyled = styled.div`
 
     @media only screen and (max-width: 768px) {
         .expense-container {
-            width: 90%; /* ✅ Slightly reduce width on small screens */
+            width: 90%; 
         }
     }
 `;

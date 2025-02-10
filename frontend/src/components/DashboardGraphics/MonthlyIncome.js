@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Bar, Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
-const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
+const MonthlyIncome = ({ refresh, userId }) => {  
     const [monthlyIncomes, setMonthlyIncomes] = useState({});
 
     useEffect(() => {
-        if (userId) {  // ✅ Ensure userId exists before calling API
+        if (userId) {  
             fetchIncomes();
         }
     }, [refresh, userId]);
@@ -35,19 +35,6 @@ const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
     const months = Object.keys(monthlyIncomes).sort((a, b) => new Date(a) - new Date(b));
     const amounts = months.map(month => monthlyIncomes[month]);
 
-    // const chartData = {
-    //     labels: months,
-    //     datasets: [
-    //         {
-    //             label: 'Monthly Income',
-    //             data: amounts,
-    //             backgroundColor: 'rgba(75, 192, 192, 0.6)',
-    //             borderColor: 'rgba(75, 192, 192, 1)',
-    //             borderWidth: 1,
-    //         }
-    //     ]
-    // };
-
     const chartData = {
         labels: months, 
         datasets: [
@@ -60,7 +47,7 @@ const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
                 pointBorderColor: '#fff',
                 pointRadius: 5,
                 borderWidth: 2,
-                fill: true, // ✅ Adds a shaded area under the line
+                fill: true, 
             }
         ]
     };
@@ -111,8 +98,8 @@ const MonthlyIncomeStyled = styled.div`
         border: 3px solid rgba(149, 153, 158, 100);
         border-radius: 15px;
         padding: 1rem;
-        width: 100%;  /* ✅ Allow full width */
-        min-height: 400px; /* ✅ Increase height */
+        width: 100%; 
+        min-height: 400px; 
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -120,9 +107,9 @@ const MonthlyIncomeStyled = styled.div`
     }
 
     .chart-wrapper {
-        width: 100%;  /* ✅ Allow full width */
-        height: 100%;  /* ✅ Allow full height */
-        flex-grow: 1;  /* ✅ Allow chart to expand */
+        width: 100%; 
+        height: 100%; 
+        flex-grow: 1; 
         display: flex;
         justify-content: center;
         align-items: center;
@@ -130,7 +117,7 @@ const MonthlyIncomeStyled = styled.div`
 
     @media only screen and (max-width: 768px) {
         .income-container {
-            width: 90%; /* ✅ Slightly reduce width on small screens */
+            width: 90%; 
         }
     }
 `;

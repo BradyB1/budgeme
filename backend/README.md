@@ -1,3 +1,11 @@
+### Getting Started
+To get started, cd into the backend and run:
+
+npm i --legacy-peer-deps
+
+
+
+
 # Endpoints 
 
 ### Incomes--
@@ -45,3 +53,21 @@ METHOD: GET
 
 http://localhost:3000/api/v1/get-incomes/<UserObjectID>
 ##
+
+
+
+### GEMINI API Key
+https://ai.google.dev/gemini-api/docs/quickstart?lang=node
+Follow the link above and select "Get a Gemini API key in Google AI Studio". Then Select "Create API Key".
+once you have your API Key, Navigate to the Backend .env file and create a variable called "GOOGLE_AI_API_KEY=<YourAPIKeyHere>"
+
+
+### BACKEND .env configuration
+Add a port to the .env in the format below
+PORT=<AddPortHere>
+
+create a MongoDB atlas account and create a .env variable as seen below
+MONGO_URL=<MongoDBAtlasURL>
+For the Mongo URL, Google/Youtube "how to get Setup MongoDB and get URL for collection"
+
+For GEMINI API Key .env variable, see the section above

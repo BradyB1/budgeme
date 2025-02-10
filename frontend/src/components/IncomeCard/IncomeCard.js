@@ -17,7 +17,7 @@ const IncomeCard = ({ incomes, onDeleteIncome, onEditIncome }) => {
 
     const handleSaveClick = () => {
         onEditIncome(editingIncomeId, editValues);
-        setEditingIncomeId(null); // Exit edit mode after saving
+        setEditingIncomeId(null); 
     };
 
     const handleChange = (e) => {

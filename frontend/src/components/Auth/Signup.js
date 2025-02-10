@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";  
 import styled from "styled-components";
 
-const Signup = ({ setUserId }) => {  // ✅ Keep `setUserId` to log in the user automatically
+//keep `setUserId` to log in the user automatically
+const Signup = ({ setUserId }) => {  
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,11 +27,11 @@ const Signup = ({ setUserId }) => {  // ✅ Keep `setUserId` to log in the user 
                 throw new Error(data.message || "Signup failed");
             }
 
-            // ✅ Auto-login: Store userId in localStorage
+            // Auto-login: Store userId in localStorage
             localStorage.setItem("userId", data.userId);
             setUserId(data.userId);
 
-            navigate("/");  // ✅ Redirect to dashboard
+            navigate("/");  // Redirect to dashboard
 
         } catch (error) {
             setError(error.message);
