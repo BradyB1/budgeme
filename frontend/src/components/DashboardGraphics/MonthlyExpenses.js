@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
 // Register necessary Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, Title, Tooltip, Legend);
 
 const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
     const [monthlyExpenses, setMonthlyExpenses] = useState({});
@@ -46,6 +46,9 @@ const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
                 label: 'Monthly Expense',
                 data: amounts, // Y-axis: Expense
                 backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                pointBackgroundColor: 'rgba(75,192,192,1)',
+                pointerBorderColor: '#fff',
+                pointRadius: 5,
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
             }
@@ -54,6 +57,7 @@ const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
 
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false,  // ✅ Allows the graph to expand fully
         plugins: {
             legend: { display: true },
             tooltip: { enabled: true }
@@ -63,14 +67,14 @@ const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
             y: { title: { display: true, text: 'Expenses ($)' }, beginAtZero: true }
         }
     };
-
+    
     return (
         <MonthlyExpenseStyled>
             <div className="expense-container">
                 <h2>Monthly Expense Overview</h2>
                 {months.length > 0 ? (
                     <div className="chart-wrapper">
-                        <Bar data={chartData} options={chartOptions} />
+                        <Line data={chartData} options={chartOptions} />
                     </div>
                 ) : (
                     <p>Loading expense data...</p>
@@ -80,16 +84,22 @@ const MonthlyExpenses = ({ refresh, userId }) => {  // ✅ Accept userId
     );
 };
 
+
+
 const MonthlyExpenseStyled = styled.div`
-    width: 80%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     .expense-container {
         background-color: #f9f9f9;
-        border: 3px solid black;
+        border: 3px solid rgba(149, 153, 158, 100);
         border-radius: 15px;
         padding: 1rem;
-        width: 80%;
-        min-height: 300px;
+        width: 100%;  /* ✅ Allow full width */
+        min-height: 400px; /* ✅ Increase height */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -97,13 +107,20 @@ const MonthlyExpenseStyled = styled.div`
     }
 
     .chart-wrapper {
-        width: 90%; /* Ensure it doesn't stretch too much */
-        max-width: 600px; /* Limit width for better visuals */
-        height: 300px;
+        width: 100%;  /* ✅ Allow full width */
+        height: 100%;  /* ✅ Allow full height */
+        flex-grow: 1;  /* ✅ Allow chart to expand */
         display: flex;
-        justify-content: center; /* Center the chart inside */
+        justify-content: center;
         align-items: center;
     }
+
+    @media only screen and (max-width: 768px) {
+        .expense-container {
+            width: 90%; /* ✅ Slightly reduce width on small screens */
+        }
+    }
 `;
+
 
 export default MonthlyExpenses;

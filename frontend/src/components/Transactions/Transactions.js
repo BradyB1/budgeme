@@ -25,6 +25,7 @@ const TransactionsStyled = styled.div`
   .dash-header {
     padding-top: 0.5rem;
     display: flex;
+    
     justify-content: center;
     font-size: 3rem;
     font-weight: bolder;

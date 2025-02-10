@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import { Bar, Line } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, Title, Tooltip, Legend);
 
 const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
     const [monthlyIncomes, setMonthlyIncomes] = useState({});
@@ -35,21 +35,38 @@ const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
     const months = Object.keys(monthlyIncomes).sort((a, b) => new Date(a) - new Date(b));
     const amounts = months.map(month => monthlyIncomes[month]);
 
+    // const chartData = {
+    //     labels: months,
+    //     datasets: [
+    //         {
+    //             label: 'Monthly Income',
+    //             data: amounts,
+    //             backgroundColor: 'rgba(75, 192, 192, 0.6)',
+    //             borderColor: 'rgba(75, 192, 192, 1)',
+    //             borderWidth: 1,
+    //         }
+    //     ]
+    // };
+
     const chartData = {
-        labels: months,
+        labels: months, 
         datasets: [
             {
-                label: 'Monthly Income',
+                label: 'Monthly Income ($)',
                 data: amounts,
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
-                borderWidth: 1,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                pointBorderColor: '#fff',
+                pointRadius: 5,
+                borderWidth: 2,
+                fill: true, // ✅ Adds a shaded area under the line
             }
         ]
     };
-
     const chartOptions = {
         responsive: true,
+        maintainAspectRatio: false, 
         plugins: {
             legend: { display: true },
             tooltip: { enabled: true }
@@ -60,13 +77,18 @@ const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
         }
     };
 
+    
+    
+    
+
     return (
         <MonthlyIncomeStyled>
             <div className="income-container">
                 <h2>Monthly Income Overview</h2>
                 {months.length > 0 ? (
                     <div className="chart-wrapper">
-                        <Bar data={chartData} options={chartOptions} />
+                        {/* <Bar data={chartData} options={chartOptions} /> */}
+                        <Line data={chartData} options={chartOptions} />
                     </div>
                 ) : (
                     <p>No Income Data ...</p>
@@ -76,28 +98,42 @@ const MonthlyIncome = ({ refresh, userId }) => {  // ✅ Accept userId
     );
 };
 
+
 const MonthlyIncomeStyled = styled.div`
-    width: 80%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     .income-container {
         background-color: #f9f9f9;
-        border: 3px solid black;
+        border: 3px solid rgba(149, 153, 158, 100);
         border-radius: 15px;
         padding: 1rem;
-        width: 80%;
-        min-height: 300px;
+        width: 100%;  /* ✅ Allow full width */
+        min-height: 400px; /* ✅ Increase height */
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
     }
+
     .chart-wrapper {
-        width: 90%;
-        max-width: 600px;
-        height: 300px;
+        width: 100%;  /* ✅ Allow full width */
+        height: 100%;  /* ✅ Allow full height */
+        flex-grow: 1;  /* ✅ Allow chart to expand */
         display: flex;
         justify-content: center;
         align-items: center;
     }
+
+    @media only screen and (max-width: 768px) {
+        .income-container {
+            width: 90%; /* ✅ Slightly reduce width on small screens */
+        }
+    }
 `;
+
 
 export default MonthlyIncome;

@@ -85,9 +85,10 @@ const TransactionBarStyled = styled.div`
     .transactions-container {
         display: flex;
         flex-direction: column;
-        width: 20%;
+        width: 100%;
         padding: 1rem;
-        border-left: 1px solid black;
+        text-align: center;
+        border-right: 1px solid black;
         background: #f9f9f9;
         max-height: 100vh;
         overflow-y: auto;
@@ -125,6 +126,15 @@ const TransactionBarStyled = styled.div`
         cursor: pointer;
         font-size: 1rem;
     }
+
+
+      @media only screen and (min-device-width: 480px){
+      width: 100%;
+        .transactions-container{
+            
+        }
+
+     }
 `;
 
 export default TransactionBar;

@@ -48,7 +48,8 @@ const Networth = ({ refresh, userId }) => {  // ✅ Ensure userId is received
   return (
     <NetworthStyled>
       <div className="networth-container">
-        <h2>Net Worth Calculator</h2>
+        <h2>Net Worth</h2>
+        <hr/>
         <h3>${networth.toFixed(2)}</h3>
       </div>
     </NetworthStyled>
@@ -56,15 +57,37 @@ const Networth = ({ refresh, userId }) => {  // ✅ Ensure userId is received
 };
 
 const NetworthStyled = styled.div`
+  padding: 2rem;
   .networth-container {
     background-color: #f9f9f9;
     border: 3px solid black;
     border-radius: 15px;
-    padding: 1rem;
+    padding: 0 1rem;
     text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
+  
+
   h2, h3 {
     margin: 0;
+    display:block;
+  }
+
+  hr{
+  width: 100%;
+  margin: 0.5rem 0;
+  border: 1px solid black;
+  }
+
+  @media only screen and (min-device-width: 480px){
+    .networth-container{
+      padding: .5rem;
+      width: 100%;
+    }
+
   }
 `;
 
