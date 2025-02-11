@@ -24,16 +24,16 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
               <Spending refresh={refresh} userId={userId}/>
             </div>
               <div className="networth-container">
-                <Networth refresh={refresh} userId={userId} /> {/* Pass userId */}
+                <Networth refresh={refresh} userId={userId} />
               </div>
 
           </div>
           
               <div className="income-container">
-                <MonthlyIncome refresh={refresh} userId={userId} /> {/*Pass userId */}
+                <MonthlyIncome refresh={refresh} userId={userId} />
               </div>
               <div className="expense-container">
-                <MonthlyExpenses refresh={refresh} userId={userId} /> {/* Pass userId */}
+                <MonthlyExpenses refresh={refresh} userId={userId} /> 
               </div>
               <div className="tips-container">
                 <GeneratedTips userId={userId} />
@@ -57,6 +57,7 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
 const DashboardStyled = styled.div`
   width: 100%;
   height: 100vh; 
+  background-color: #f9f9f9;
 
   .dash-header {
     padding-top: 0.5rem;
@@ -64,17 +65,13 @@ const DashboardStyled = styled.div`
     justify-content: center;
     font-size: 3rem;
     font-weight: bolder;
-  }
-
-  .dash-content {
-    background-color: #f9f9f9;
+    
   }
 
   .main-container {
     margin-top: 1rem;
     display: flex;
     flex-wrap: wrap;
-    background-color: #f9f9f9;
     align-items: start;
     justify-content: center;
     width: 100%;

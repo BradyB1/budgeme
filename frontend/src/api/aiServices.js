@@ -1,9 +1,11 @@
-const API_BASE_URL = "http://localhost:3000/api/v1"; // CHANGE FOR DEPLOYMENTs
-export async function fetchFinancialTip(userId) {
+const API_BASE_URL = "http://localhost:3000/api/v1"; 
+
+export async function fetchFinancialTip(userId, refresh = false) {
     try {
-        //Add a cache-busting timestamp to the request URL
+        console.log("Fetching AI Tip (Refresh:", refresh, ")");
         const timestamp = new Date().getTime();
-        const response = await fetch(`${API_BASE_URL}/financial-tips/${userId}?_=${timestamp}`, {
+        
+        const response = await fetch(`${API_BASE_URL}/financial-tips/${userId}?refresh=${refresh}&_=${timestamp}`, {
             method: "GET",
             headers: {
                 "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -17,6 +19,7 @@ export async function fetchFinancialTip(userId) {
         }
 
         const data = await response.json();
+        console.log("AI Tip Data:", data);
         return data.tip;
     } catch (error) {
         console.error("Error fetching AI tip:", error);

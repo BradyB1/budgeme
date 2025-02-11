@@ -45,11 +45,13 @@ const Form = ({ onNewExpense }) => {  // Receive onNewExpense as a prop
             <div className="selects input-control">
                 <select required value={category} name="category" id="category" onChange={handleInput('category')}>
                     <option value="" disabled>Select Option</option>
-                    <option value="salary">Salary</option>
-                    <option value="Venmo">Venmo</option>
-                    <option value="investments">Investments</option>
-                    <option value="stocks">Stocks</option>
-                    <option value="bank">Bank Transfer</option>
+                    <option value="rent">Rent</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="home-products">Home Products</option>
+                    <option value="animals">Animals</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="car">Car</option>
+                    <option value="gas">Gas</option>
                     <option value="other">Other</option>
                 </select>
             </div>

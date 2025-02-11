@@ -107,7 +107,22 @@ function ResponsiveAppBar() {
                 </Tooltip>
                 <Menu anchorEl={anchorElUser} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
                   {settings.map((setting) => (
-                    <MenuItem key={setting} onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}>
+                    // <MenuItem key={setting} onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}>
+                    <MenuItem
+                    key={setting}
+                    onClick={() => {
+                      handleCloseUserMenu();  // ✅ Close menu first
+                      if (setting === "Logout") {
+                        handleLogout();
+                      } else if (setting === "Dashboard") {
+                        navigate("/");  
+                      } else if (setting === "Profile") {
+                        navigate("/profile"); 
+                      } else if (setting === "Account") {
+                        navigate("/account");  
+                      }
+                    }}
+>
                       <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
                     </MenuItem>
                   ))}

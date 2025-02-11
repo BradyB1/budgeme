@@ -77,7 +77,7 @@ const MonthlyExpenses = ({ refresh, userId }) => {  //take userId
                         <Line data={chartData} options={chartOptions} />
                     </div>
                 ) : (
-                    <p>Loading expense data...</p>
+                    <p>No Expense data found...</p>
                 )}
             </div>
         </MonthlyExpenseStyled>

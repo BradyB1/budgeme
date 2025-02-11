@@ -41,13 +41,15 @@ const ExpenseCard = ({ expenses, onDeleteExpense, onEditExpense }) => {
                                         <>
                                             <input type="text" name="title" value={editValues.title} onChange={handleChange} className="edit-input" />
                                             <input type="number" name="amount" value={editValues.amount} onChange={handleChange} className="edit-input" />
-                                            <input type="date" name="date" value={editValues.date.split('T')[0]} onChange={handleChange} className="edit-input" />
                                             <input type="text" name="category" value={editValues.category} onChange={handleChange} className="edit-input" />
+                                            <input type="date" name="date" value={editValues.date.split('T')[0]} onChange={handleChange} className="edit-input" />
+                                            
                                         </>
                                     ) : (
                                         <>
                                             <p><strong>{expense.title}</strong></p>
                                             <p>Amount: ${expense.amount}</p>
+                                            <p>Category: {expense.category.charAt(0).toUpperCase() + expense.category.slice(1)}</p>
                                             <p><i>{new Date(expense.date).toLocaleDateString('en-US', { timeZone: 'UTC' })}</i></p>                                        </>
                                     )}
                                 </div>

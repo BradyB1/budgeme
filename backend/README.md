@@ -3,8 +3,8 @@ To get started, cd into the backend and run:
 
 npm i --legacy-peer-deps
 
-
-
+To run the backend use:
+npm start
 
 # Endpoints 
 
