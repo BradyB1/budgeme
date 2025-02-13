@@ -25,8 +25,8 @@ const settings = ["Profile","Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
+  const [userData, setUserData] = React.useState(null);
   const userId = localStorage.getItem("userId");
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -40,6 +40,25 @@ function ResponsiveAppBar() {
     localStorage.removeItem("userId");
     navigate("/login");
   };
+
+  React.useEffect(() => {
+          const fetchUserData = async () => {
+              if (!userId) return;
+  
+              try {
+                  const response = await fetch(`http://localhost:3000/api/v1/get-user/${userId}`);
+                  if (!response.ok) throw new Error("Failed to fetch user data");
+  
+                  const data = await response.json();
+                  setUserData(data);
+              } catch (error) {
+                  console.error("Error fetching user data:", error);
+              }
+          };
+  
+          fetchUserData();
+      }, [userId]);
+  
 
   return (
     <AppBar position="static">
@@ -102,7 +121,7 @@ function ResponsiveAppBar() {
               <Box sx={{ flexGrow: 0 }}>
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+                    <Avatar style={{ border: "2px solid gray", margin:10}} alt={!userData || !userData.username ? "unknown" : userData.username.toUpperCase()} src="/static/images/avatar/1.jpg" />
                   </IconButton>
                 </Tooltip>
                 <Menu anchorEl={anchorElUser} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>

@@ -44,7 +44,7 @@ const Form = ({ onNewExpense }) => {  // Receive onNewExpense as a prop
 
             <div className="selects input-control">
                 <select required value={category} name="category" id="category" onChange={handleInput('category')}>
-                    <option value="" disabled>Select Option</option>
+                    <option value="" disabled>Select Category</option>
                     <option value="rent">Rent</option>
                     <option value="groceries">Groceries</option>
                     <option value="home-products">Home Products</option>
