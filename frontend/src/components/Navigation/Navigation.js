@@ -69,7 +69,7 @@ function ResponsiveAppBar() {
             variant="h6"
             noWrap
             component="a"
-            href="#"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -98,6 +98,30 @@ function ResponsiveAppBar() {
                   ))}
                 </Menu>
               </Box>
+
+            {/* Mobile Title - Centered */}
+            <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                href="#"
+                href="#"
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "flex", md: "none" }, 
+                  justifyContent: "center", 
+                  fontFamily: "monospace",
+                  fontWeight: 800,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                  position: "absolute", 
+                  left: "50%",
+                  transform: "translateX(-50%)", 
+                }}
+              >
+                BudgeMe
+              </Typography>
 
               {/* Desktop Menu */}
               <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

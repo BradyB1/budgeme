@@ -53,14 +53,14 @@ const ChangeAccountDetails = () => {
                         value={newUsername}
                         onChange={(e) => setNewUsername(e.target.value)}
                     />
-                    <br />
+                   
                     <input
                         type="email"
                         placeholder="New Email (optional)"
                         value={newEmail}
                         onChange={(e) => setNewEmail(e.target.value)}
                     />
-                    <br />
+                    
                     <button type="submit">Update Account</button>
                 </form>
                 {message && <p>{message}</p>}

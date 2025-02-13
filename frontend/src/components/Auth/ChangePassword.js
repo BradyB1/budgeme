@@ -51,7 +51,7 @@ const ChangePassword = () => {
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
                     />
-                    <br />
+                    
                     <input
                         type="password"
                         placeholder="Confirm Password"
@@ -59,7 +59,7 @@ const ChangePassword = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
                     />
-                    <br />
+                    
                     <button type="submit">Update Password</button>
                 </form>
                 {message && <p>{message}</p>}
@@ -69,7 +69,43 @@ const ChangePassword = () => {
 };
 
 const ChangePasswordStyled = styled.div`
-    padding: 1rem;
+    padding: 2rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    max-width: 400px;
+    margin: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+    h2 {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 1.1rem;
+        margin: 0.5rem 0;
+        color: red;
+    }
+
+    input {
+        width: 100%;
+        padding: 0.5rem;
+        margin-top: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #007bff;
+        color: white;
+        padding: 0.75rem;
+        margin-top: 1rem;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+        font-size: 1rem;
+        border-radius: 5px;
+    }
 `;
 
 export default ChangePassword;

@@ -21,7 +21,7 @@ const EditProfileStyled = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    padding-top: 1rem;
     
     .container {
         background: #fff;
