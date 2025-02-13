@@ -12,38 +12,55 @@ const TransactionBar = ({ triggerRefresh, userId }) => {
 
     const fetchTransactions = async () => {
         try {
-            console.log("Fetching transactions for userId:", userId); 
-
-            // Fetch incomes & expenses at the same time
-            const [incomeRes, expenseRes] = await Promise.all([
+            console.log("Fetching transactions for userId:", userId);
+    
+            // Fetch incomes & expenses, handle 404 errors gracefully
+            const [incomeRes, expenseRes] = await Promise.allSettled([
                 fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`),
                 fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`)
             ]);
-
-            if (!incomeRes.ok || !expenseRes.ok) throw new Error('Failed to fetch transactions');
-
-            const incomes = await incomeRes.json();
-            const expenses = await expenseRes.json();
-
-            console.log("Fetched incomes:", incomes); 
-            console.log("Fetched expenses:", expenses); 
-
-            // Add type & merge both transactions
+    
+            // Handle failed fetches
+            const incomes = incomeRes.status === "fulfilled" && incomeRes.value.ok
+                ? await incomeRes.value.json()
+                : [];
+    
+            const expenses = expenseRes.status === "fulfilled" && expenseRes.value.ok
+                ? await expenseRes.value.json()
+                : [];
+    
+            console.log("Fetched incomes:", incomes);
+            console.log("Fetched expenses:", expenses);
+    
+            // Merge transactions & handle missing dates
             const allTransactions = [
-                ...incomes.map(income => ({ ...income, type: 'income' })),
-                ...expenses.map(expense => ({ ...expense, type: 'expense' }))
+                ...incomes.map(income => ({
+                    ...income,
+                    type: 'income',
+                    date: income.date ? new Date(income.date) : new Date(0) // Default date if missing
+                })),
+                ...expenses.map(expense => ({
+                    ...expense,
+                    type: 'expense',
+                    date: expense.date ? new Date(expense.date) : new Date(0)
+                }))
             ];
-
-            // Sort all transactions together by date (newest first) & keep only the latest 10
+    
+            console.log("Merged transactions before sorting:", allTransactions);
+    
+            // Sort by date (newest first) and limit to 10
             const sortedTransactions = allTransactions
                 .sort((a, b) => new Date(b.date) - new Date(a.date))
                 .slice(0, 10);
-
+    
             setTransactions(sortedTransactions);
         } catch (error) {
             console.log('Error fetching transactions:', error);
+            setTransactions([]); // Ensure UI updates even if there's an error
         }
     };
+    
+
 
     const handleDeleteTransaction = async (transaction) => {
         try {

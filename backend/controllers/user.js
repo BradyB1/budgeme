@@ -109,40 +109,35 @@ exports.deleteUser = async(req, res) => {
 
 }
 
-
 exports.updateUser = async (req, res) => {
     const { id } = req.params;
-    const { username, password, email } = req.body;
+    const { username, email, password } = req.body;
 
     try {
-        // Validate ID format
         if (!id.match(/^[0-9a-fA-F]{24}$/)) {
             return res.status(400).json({ message: "Invalid user ID format" });
         }
 
-        //Validate user input
-        const errors = validateUserData(username, password, email);
-        if (errors.length > 0) {
-            return res.status(400).json({ message: errors });
-        }
-
-        //Hash password if updating
-        let hashedPassword = password;
-        if (password) {
-            const salt = await bcrypt.genSalt(10);
-            hashedPassword = await bcrypt.hash(password, salt);
-        }
-
-        // Update user
-        const updatedUser = await User.findByIdAndUpdate(
-            id,
-            { username, password: hashedPassword, email },
-            { new: true, runValidators: true }
-        );
-
-        if (!updatedUser) {
+        // Find the user first
+        const user = await User.findById(id);
+        if (!user) {
             return res.status(404).json({ message: "User not found." });
         }
+
+        // Prepare updated fields (only update what is provided)
+        const updateFields = {};
+        if (username) updateFields.username = username;
+        if (email) updateFields.email = email;
+        if (password) {
+            if (password.length < 6) {
+                return res.status(400).json({ message: "Password must be at least 6 characters long." });
+            }
+            const salt = await bcrypt.genSalt(10);
+            updateFields.password = await bcrypt.hash(password, salt);
+        }
+
+        // Update the user
+        const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true, runValidators: true });
 
         res.status(200).json({ message: "User updated successfully.", user: updatedUser });
     } catch (error) {

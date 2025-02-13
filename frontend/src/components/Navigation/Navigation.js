@@ -21,7 +21,7 @@ const pages = [
   { name: "Transactions", path: "/transactions" }
 ];
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile","Dashboard", "Logout"];
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -107,20 +107,18 @@ function ResponsiveAppBar() {
                 </Tooltip>
                 <Menu anchorEl={anchorElUser} open={Boolean(anchorElUser)} onClose={handleCloseUserMenu}>
                   {settings.map((setting) => (
-                    // <MenuItem key={setting} onClick={setting === "Logout" ? handleLogout : handleCloseUserMenu}>
+                    
                     <MenuItem
                     key={setting}
                     onClick={() => {
-                      handleCloseUserMenu();  // ✅ Close menu first
+                      handleCloseUserMenu();  
                       if (setting === "Logout") {
                         handleLogout();
                       } else if (setting === "Dashboard") {
                         navigate("/");  
                       } else if (setting === "Profile") {
                         navigate("/profile"); 
-                      } else if (setting === "Account") {
-                        navigate("/account");  
-                      }
+                      } 
                     }}
 >
                       <Typography sx={{ textAlign: "center" }}>{setting}</Typography>
