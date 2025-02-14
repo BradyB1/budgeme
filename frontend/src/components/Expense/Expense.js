@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import ExpenseForm from '../Form/ExpenseForm'
 import ExpenseCard from '../ExpenseCard/ExpenseCard'
+import GeneratedTips from '../DashboardGraphics/GeneratedTips'
 
 const Expense = ({ userId }) => {
     const [expenses, setExpenses] = useState([])
@@ -105,13 +106,44 @@ const Expense = ({ userId }) => {
     
 
     return (
+        
         <ExpenseStyled>
-            <ExpenseForm onNewExpense={handleNewExpense} />
+            <div className="container">
+                <div className="form">
+                    <ExpenseForm onNewExpense={handleNewExpense} />
+                </div>
+                <div className="tips">
+                    <GeneratedTips userId={userId} />
+                </div>
+            </div>
             <ExpenseCard expenses={expenses} onDeleteExpense={handleDeleteExpense} onEditExpense={handleEditExpense}/>
         </ExpenseStyled>
     )
 }
 
-const ExpenseStyled = styled.div``
+const ExpenseStyled = styled.div`
+@media screen and (min-width: 786px){
+    .container{ 
+    display:flex;
+    width: 100%;
+    }
+
+    .form{
+        width: 50%;
+        
+    }
+    .tips{
+        width: 50%;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 786px){
+    .tips{ 
+        padding: 1rem;
+    }
+
+}
+`
 
 export default Expense

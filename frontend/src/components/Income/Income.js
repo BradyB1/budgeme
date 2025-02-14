@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import Form from "../Form/Form"
 import IncomeCard from '../IncomeCard/IncomeCard'
-
+import GeneratedTips from "../DashboardGraphics/GeneratedTips"
 
 const Income = ({ userId }) => { 
     const [incomes, setIncomes] = useState([]);
@@ -104,13 +104,45 @@ const Income = ({ userId }) => {
     
 
     return (
+
         <IncomeStyled>
+            <div className="container">
+                <div className="form">
             <Form onNewIncome={handleNewIncome} userId={userId} />
+                </div>
+                <div className="tips">
+            <GeneratedTips userId={userId}></GeneratedTips>
+                </div>
+            </div>  
             <IncomeCard incomes={incomes} onDeleteIncome={handleDeleteIncome} onEditIncome={handleEditIncome} />
         </IncomeStyled>
     );
 };
 
-const IncomeStyled = styled.div``
+const IncomeStyled = styled.div`
+@media screen and (min-width: 786px){
+    .container{ 
+    display:flex;
+    width: 100%;
+    }
+
+    .form{
+        width: 50%;
+        
+    }
+    .tips{
+        width: 50%;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 786px){
+    .tips{ 
+        padding: 1rem;
+    }
+
+}
+    
+`
 
 export default Income
