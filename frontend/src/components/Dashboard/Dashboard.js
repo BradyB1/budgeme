@@ -20,6 +20,7 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
         <div className="main-container">
           <div className="quick-graphics">
 
+            {/* Desktop: Center These and make them side by side on the top of the screen */}
             <div className="spending-container">
               <Spending refresh={refresh} userId={userId}/>
             </div>
@@ -28,13 +29,15 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
               </div>
 
           </div>
-          
+              {/* Desktop: Center these and make them the second line below spending and networth */}
               <div className="income-container">
                 <MonthlyIncome refresh={refresh} userId={userId} />
               </div>
               <div className="expense-container">
                 <MonthlyExpenses refresh={refresh} userId={userId} /> 
               </div>
+
+              {/* Desktop: below graphics - centered - width ~75% so theres padding on the edges */}
               <div className="tips-container">
                 <GeneratedTips userId={userId} />
               </div>
@@ -43,12 +46,11 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
 
         </div>
       </div>
-      <div className="bottom-container">
+      
         <div className="transcations-container">
           <TransactionBar userId={userId} triggerRefresh={triggerRefresh} className="transactions"/> 
         </div>
         
-      </div> 
     </DashboardStyled>
   );
 };
@@ -84,6 +86,7 @@ const DashboardStyled = styled.div`
     display: flex;
     flex-direction: column;
     padding-top: 2rem;
+  
   }
 
   .income-container,
@@ -109,17 +112,10 @@ const DashboardStyled = styled.div`
     justify-content: center;
   }
 
-  .transactions-container{ 
-    max-width: 100%;
-    height: 100%;
+  .transactions{ 
+    width: 100%;
   }
 
-  .transactions {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
   
   @media only screen and (min-width: 480px) {
     .transactions {
