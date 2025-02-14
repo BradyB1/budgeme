@@ -38,7 +38,7 @@ const GeneratedTipsStyled = styled.div`
         border-radius: 8px;
         margin-top: 15px;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        text-align: left;
+        text-align: center;
         padding: 20px;
     }
 
@@ -50,6 +50,8 @@ const GeneratedTipsStyled = styled.div`
         font-size: 1rem;
         color: #333;
         white-space: pre-line;
+        text-align: center;
+        padding-top: 1rem;
     }
 
     .refresh-btn {

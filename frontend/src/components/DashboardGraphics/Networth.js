@@ -57,7 +57,6 @@ const Networth = ({ refresh, userId }) => {
 };
 
 const NetworthStyled = styled.div`
-  padding: 2rem;
   .networth-container {
     background-color: #f9f9f9;
     border: 3px solid black;

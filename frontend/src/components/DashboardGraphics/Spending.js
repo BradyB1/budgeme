@@ -75,7 +75,6 @@ const SpendingStyled = styled.div`
 
   h2,
   h3 {
-    padding-top: .5rem;
     margin: 0;
     display: block;
   }
@@ -84,6 +83,14 @@ const SpendingStyled = styled.div`
     width: 100%;
     margin: 0.5rem 0;
     border: 1px solid black;
+  }
+  
+  @media only screen and (min-device-width: 480px){
+    .spending-container{
+      padding: .5rem;
+      width: 100%;
+    }
+
   }
 `;
 

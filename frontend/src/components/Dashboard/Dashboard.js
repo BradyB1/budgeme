@@ -30,16 +30,19 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
 
           </div>
               {/* Desktop: Center these and make them the second line below spending and networth */}
-              <div className="income-container">
-                <MonthlyIncome refresh={refresh} userId={userId} />
+              <div className="info-graphics">
+                <div className="income-container">
+                  <MonthlyIncome refresh={refresh} userId={userId} />
+                </div>
+                <div className="expense-container">
+                  <MonthlyExpenses refresh={refresh} userId={userId} /> 
+                </div>
               </div>
-              <div className="expense-container">
-                <MonthlyExpenses refresh={refresh} userId={userId} /> 
-              </div>
-
               {/* Desktop: below graphics - centered - width ~75% so theres padding on the edges */}
-              <div className="tips-container">
-                <GeneratedTips userId={userId} />
+              <div className="tips">
+                <div className="tips-container">
+                  <GeneratedTips userId={userId} />
+                </div>
               </div>
 
             
@@ -57,9 +60,10 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
 
 
 const DashboardStyled = styled.div`
+  background-color: #fff;
   width: 100%;
   height: 100vh; 
-  background-color: #f9f9f9;
+  // background-color: #f9f9f9;
 
   .dash-header {
     padding-top: 0.5rem;
@@ -84,9 +88,18 @@ const DashboardStyled = styled.div`
   
   .quick-graphics{ 
     display: flex;
-    flex-direction: column;
-    padding-top: 2rem;
-  
+    flex-direction: row;
+    padding: 1rem 0;
+    width: 50%;
+  }
+
+  .info-graphics{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+    width: 90%;
+    
   }
 
   .income-container,
@@ -110,6 +123,7 @@ const DashboardStyled = styled.div`
     flex:1;
     display:flex;
     justify-content: center;
+    align-text:center;
   }
 
   .transactions{ 

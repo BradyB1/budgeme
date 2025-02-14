@@ -61,6 +61,7 @@ function ResponsiveAppBar() {
   
 
   return (
+    // changing it white
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
