@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { Button } from '@mui/material';
 
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
@@ -78,7 +79,10 @@ const MonthlyIncome = ({ refresh, userId }) => {
                         <Line data={chartData} options={chartOptions} />
                     </div>
                 ) : (
+                    <>
                     <p>No Income Data ...</p>
+                    <a href="/income"><Button variant="outlined">Add Income</Button></a>
+                    </>
                 )}
             </div>
         </MonthlyIncomeStyled>
@@ -106,6 +110,9 @@ const MonthlyIncomeStyled = styled.div`
         justify-content: center;
     }
 
+    .income-container a{
+        padding-top: .25rem;
+    }
     .chart-wrapper {
         width: 100%; 
         height: 100%; 

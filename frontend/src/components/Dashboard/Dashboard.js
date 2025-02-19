@@ -60,7 +60,13 @@ const Dashboard = ({ userId }) => {  //Accept userId as a prop
 
 
 const DashboardStyled = styled.div`
-  background-color: #fff;
+
+
+
+
+
+
+  // background-color: #fff;
   width: 100%;
   height: 100vh; 
   // background-color: #f9f9f9;
@@ -89,8 +95,10 @@ const DashboardStyled = styled.div`
   .quick-graphics{ 
     display: flex;
     flex-direction: row;
+    justify-content: center;
     padding: 1rem 0;
     width: 50%;
+
   }
 
   .info-graphics{
@@ -146,6 +154,32 @@ const DashboardStyled = styled.div`
       width: 100%; 
     }
   }
+
+@media only screen and (max-width: 480px) {
+  .quick-graphics {
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    width: 100%; 
+    padding: 1rem 0;
+  }
+
+
+  .info-graphics{
+    display:flex;
+    flex-direction: column;
+    width: 95%;
+  }
+
+   .tips{
+    width: 95%;
+   }
+}
+ 
+
 `;
 
 

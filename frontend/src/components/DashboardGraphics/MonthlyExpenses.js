@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Bar, Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
+import { Button } from '@mui/material';
 
 //Chart.js components
 ChartJS.register(CategoryScale, LinearScale, LineElement, PointElement, BarElement, Title, Tooltip, Legend);
@@ -77,7 +78,10 @@ const MonthlyExpenses = ({ refresh, userId }) => {  //take userId
                         <Line data={chartData} options={chartOptions} />
                     </div>
                 ) : (
+                    <>
                     <p>No Expense data found...</p>
+                    <a href="/expenses"><Button variant='outlined'>Add Expenses</Button></a>
+                    </>
                 )}
             </div>
         </MonthlyExpenseStyled>
@@ -104,6 +108,10 @@ const MonthlyExpenseStyled = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
+    }
+    
+    .expense-container a{
+        padding-top: .25rem;
     }
 
     .chart-wrapper {

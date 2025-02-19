@@ -95,7 +95,7 @@ const ExpenseCardStyled = styled.div`
         align-items: center;
     }
     
-    .left-containter{
+    .left-container{
         display: flex;
         width: 75%;
         flex-direction: column;
@@ -106,7 +106,14 @@ const ExpenseCardStyled = styled.div`
         justify-content: flex-end;
         align-items: center;
     }
-
+ .edit-input {
+        width: 100%;
+        padding: 5px;
+        margin: 3px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
     #expense-list {
         width: 100%;
         display: flex;
