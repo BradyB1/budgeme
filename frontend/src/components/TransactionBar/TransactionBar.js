@@ -136,7 +136,7 @@ const TransactionBarStyled = styled.div`
         width: 100%;
         padding: 1rem;
         text-align: center;
-        border-right: 1px solid black;
+        
         background: #f9f9f9;
         max-height: 100vh;
         overflow-y: auto;
