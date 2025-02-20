@@ -8,7 +8,7 @@ const Spending = ({ refresh, userId }) => {
   const fetchExpenses = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/get-expenses/${userId}`
+        `https://budgeme.onrender.com/api/v1/get-expenses/${userId}`
       );
       if (!response.ok) throw new Error("Failed to fetch expenses");
 

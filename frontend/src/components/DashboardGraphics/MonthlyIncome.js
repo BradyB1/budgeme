@@ -17,7 +17,7 @@ const MonthlyIncome = ({ refresh, userId }) => {
 
     const fetchIncomes = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); // ✅ Use userId
+            const response = await fetch(`https://budgeme.onrender.com/api/v1/get-incomes/${userId}`); // ✅ Use userId
             if (!response.ok) throw new Error('Failed to fetch income data');
             const data = await response.json();
             const incomeByMonth = data.reduce((acc, income) => {
