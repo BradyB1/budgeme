@@ -15,7 +15,7 @@ const Income = ({ userId }) => {
 
     const fetchIncomes = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`); 
+            const response = await fetch(`https://budgeme.onrender.com/api/v1/get-incomes/${userId}`); 
             if (!response.ok) {
                 throw new Error("Failed to fetch income data");
             }
@@ -31,7 +31,7 @@ const Income = ({ userId }) => {
         try {
             console.log("Submitting income:", newIncome);
     
-            const response = await fetch('http://localhost:3000/api/v1/add-income', {
+            const response = await fetch('https://budgeme.onrender.com/api/v1/add-income', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ ...newIncome, userId })
@@ -55,7 +55,7 @@ const Income = ({ userId }) => {
         try {
             console.log('Deleting Income:', incomeId);
     
-            const response = await fetch(`http://localhost:3000/api/v1/delete-income/${incomeId}`, {
+            const response = await fetch(`https://budgeme.onrender.com/api/v1/delete-income/${incomeId}`, {
                 method: 'DELETE',
             });
     
@@ -78,7 +78,7 @@ const Income = ({ userId }) => {
                 date: new Date(updatedIncome.date).toISOString().split('T')[0] + "T00:00:00.000Z" 
             };
     
-            const response = await fetch(`http://localhost:3000/api/v1/update-income/${incomeId}`, {
+            const response = await fetch(`https://budgeme.onrender.com/api/v1/update-income/${incomeId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(correctedIncome),

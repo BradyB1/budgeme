@@ -18,7 +18,7 @@ const MonthlyExpenses = ({ refresh, userId }) => {  //take userId
 
     const fetchExpenses = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`); //Use userId
+            const response = await fetch(`https://budgeme.onrender.com/api/v1/get-expenses/${userId}`); //Use userId
             if (!response.ok) throw new Error('Failed to fetch expense data');
             const data = await response.json();
             const expenseByMonth = data.reduce((acc, expense) => {

@@ -9,7 +9,7 @@ const Networth = ({ refresh, userId }) => {
   // Fetch and Sum Income
   const fetchIncomes = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`);
+      const response = await fetch(`https://budgeme.onrender.com/api/v1/get-incomes/${userId}`);
       if (!response.ok) throw new Error('Failed to fetch income');
       const data = await response.json();
       const totalIncome = data.reduce((sum, item) => sum + parseFloat(item.amount || '0'), 0);
@@ -22,7 +22,7 @@ const Networth = ({ refresh, userId }) => {
   // Fetch and Sum Expenses
   const fetchExpenses = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`);
+      const response = await fetch(`https://budgeme.onrender.com/api/v1/get-expenses/${userId}`);
       if (!response.ok) throw new Error('Failed to fetch expenses');
       const data = await response.json();
       const totalExpenses = data.reduce((sum, item) => sum + parseFloat(item.amount || '0'), 0);

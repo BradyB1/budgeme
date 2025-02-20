@@ -14,8 +14,8 @@ const TransactionBar = ({ triggerRefresh, userId }) => {
         try {
             // Fetch incomes & expenses, handle 404 errors gracefully
             const [incomeRes, expenseRes] = await Promise.allSettled([
-                fetch(`http://localhost:3000/api/v1/get-incomes/${userId}`),
-                fetch(`http://localhost:3000/api/v1/get-expenses/${userId}`)
+                fetch(`https://budgeme.onrender.com/api/v1/get-incomes/${userId}`),
+                fetch(`https://budgeme.onrender.com/api/v1/get-expenses/${userId}`)
             ]);
 
             // Handle failed fetches
@@ -67,8 +67,8 @@ const TransactionBar = ({ triggerRefresh, userId }) => {
         try {
             const url =
                 transaction.type === "income"
-                    ? `http://localhost:3000/api/v1/delete-income/${transaction._id}`
-                    : `http://localhost:3000/api/v1/delete-expense/${transaction._id}`;
+                    ? `https://budgeme.onrender.com/api/v1/delete-income/${transaction._id}`
+                    : `https://budgeme.onrender.com/api/v1/delete-expense/${transaction._id}`;
 
             await fetch(url, { method: "DELETE" });
 

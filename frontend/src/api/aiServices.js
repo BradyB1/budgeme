@@ -1,4 +1,5 @@
-const API_BASE_URL = "http://localhost:3000/api/v1"; 
+// const API_BASE_URL = "http://localhost:3000/api/v1"; 
+const API_BASE_URL = "https://budgeme.onrender.com/api/v1"; 
 
 export async function fetchFinancialTip(userId, refresh = false) {
     try {

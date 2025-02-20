@@ -15,7 +15,7 @@ const Signup = ({ setUserId }) => {
         setError("");  
 
         try {
-            const response = await fetch("http://localhost:3000/api/v1/add-user", {
+            const response = await fetch("https://budgeme.onrender.com/api/v1/add-user", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, email, password }),

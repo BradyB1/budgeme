@@ -13,7 +13,7 @@ const Profile = () => {
             if (!userId) return;
 
             try {
-                const response = await fetch(`http://localhost:3000/api/v1/get-user/${userId}`);
+                const response = await fetch(`https://budgeme.onrender.com/api/v1/get-user/${userId}`);
                 if (!response.ok) throw new Error("Failed to fetch user data");
 
                 const data = await response.json();
