@@ -24,6 +24,7 @@ const server = () =>{
     db()
     app.listen(port, ()=>{
         console.log(`Server running on port ${port}`)
+        console.log("Running from Prod")
     })
 }
 
