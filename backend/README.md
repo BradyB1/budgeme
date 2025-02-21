@@ -71,3 +71,9 @@ https://ai.google.dev/gemini-api/docs/quickstart?lang=node
 Follow the link above and select "Get a Gemini API key in Google AI Studio". Then Select "Create API Key".
 once you have your API Key, Navigate to the Backend .env file and create a variable called "GOOGLE_AI_API_KEY=<YourAPIKeyHere>"
 "GOOGLE_AI_API_KEY=<YourAPIKeyHere>"
+
+
+
+
+### Currently the backend is only functional on deployment tests. 
+## For dev work, branch off of deployment-tests not main
