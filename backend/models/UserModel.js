@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String, 
-        time: true,
+        trim: true,
         require: true,
         unique: true,
         lowercase: true,
@@ -37,7 +37,7 @@ UserSchema.pre("save", async function (next) {
 
     try {
         const salt = await bcrypt.genSalt(saltRounds)
-        this.password = await bcrypt.hash(his.password, salt);
+        this.password = await bcrypt.hash(this.password, salt);
         next();
     } catch (error) {
         next(error)
